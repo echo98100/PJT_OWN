@@ -16,7 +16,9 @@ public enum ErrorCode {
     BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "삭제할 북마크를 찾을 수 없습니다."), // HTTP 404 Not Found
 	//좋아요 관련 비즈니스 오류
 	ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요된 게시물입니다."), // HTTP 409
-	LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "삭제할 좋아요를 찾을 수 없습니다."); // HTTP 404 Not Found
+	LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "삭제할 좋아요를 찾을 수 없습니다."), // HTTP 404 Not Found
+	//로그인 관련 오류
+	INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"비밀번호가 틀렸습니다.");
 
     private final HttpStatus status;
     private final String message;
