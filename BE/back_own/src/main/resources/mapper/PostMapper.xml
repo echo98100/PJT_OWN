@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.own.domain.post.dao.PostDao">
+
+	<!-- select 문에서 중복되는 sql 조각들을 편리하게 사용하기 위함
+	include refid로 사용 -->
+	<sql id="selectPostDetails">
+		p.post_id           AS postId,
+        p.created_at        AS createdAt,
+        p.caption           AS caption,
+        
+        (SELECT workout_type_id 
+           FROM post_workout_type pwt 
+          WHERE pwt.post_id = p.post_id 
+          LIMIT 1)          AS workoutTag,
+        
+        u.nickname          AS nickname,
+        u.profile_img       AS profileImg,
+        u.tier_level        AS tierLevel,
+        m.title             AS musicTitle,
+        m.album_img         AS albumImg,
+        m.duration          AS duration,
+        m.preview_url       AS previewUrl,
+        
+        (SELECT COUNT(*) FROM likes l WHERE l.post_id = p.post_id) AS likeCnt,
+        (SELECT COUNT(*) FROM bookmark b WHERE b.post_id = p.post_id) AS bookmarkCnt,
+        
+        EXISTS (
+            SELECT 1 FROM likes l WHERE l.post_id = p.post_id AND l.user_id = #{loginUserId}
+        ) AS isLiked,
+        EXISTS (
+            SELECT 1 FROM bookmark b WHERE b.post_id = p.post_id AND b.user_id = #{loginUserId}
+        ) AS isBookmarked
+    </sql>
+
+	<!--  페이지네이션 관련 정보 : 커서 기반(무한 스크롤) 
+		1. lastPostId는 null 
+		2. ORDER BY p.post_id DESC: post_id가 높을 수록 최근 글이므로 내림차순으로 정렬 
+		3. LIMIT 10으로 10개씩 나오도록 고정 
+		4. WHERE p.post_id < 마지막id 조건으로 스크롤더보기 구현-->
+		
+    <sql id="cursorCondition">
+        <if test="lastPostId != null"> 
+            AND p.post_id &lt; #{lastPostId}  </if>
+    </sql>
+	
+	
+	 <!--  전체 포스트 조회 -->
+    <select id="findAll" resultType="com.own.domain.post.dto.response.PostResponse">
+        SELECT 
+            <include refid="selectPostDetails"/>
+        FROM post p
+        LEFT JOIN `user` u ON p.user_id = u.user_id
+        LEFT JOIN music m ON p.music_id = m.music_id
+        <where>
+            <include refid="cursorCondition"/>
+        </where>
+        ORDER BY p.post_id DESC  LIMIT 10          
+         </select>
+
+<!--  특정 유저가 작성한 포스트 조회 -->
+    <select id="findByUserId" resultType="com.own.domain.post.dto.response.PostResponse">
+        SELECT 
+            <include refid="selectPostDetails"/>
+        FROM post p
+        LEFT JOIN `user` u ON p.user_id = u.user_id
+        LEFT JOIN music m ON p.music_id = m.music_id
+        WHERE p.user_id = #{userId} <include refid="cursorCondition"/>
+        ORDER BY p.post_id DESC
+        LIMIT 10
+    </select>
+
+	<!-- 특정 유저가 좋아요한 포스트 조회 -->
+    <select id="findLikedPosts" resultType="com.own.domain.post.dto.response.PostResponse">
+        SELECT 
+            <include refid="selectPostDetails"/>
+        FROM post p
+        JOIN likes l ON p.post_id = l.post_id
+        LEFT JOIN `user` u ON p.user_id = u.user_id
+        LEFT JOIN music m ON p.music_id = m.music_id
+        WHERE l.user_id = #{userId}
+        
+        <include refid="cursorCondition"/>
+        
+        ORDER BY p.post_id DESC
+        LIMIT 10
+    </select>
+
+	<!-- 특정 유저가 북마크한 포스트 조회 -->
+    <select id="findBookmarkedPosts" resultType="com.own.domain.post.dto.response.PostResponse">
+        SELECT 
+            <include refid="selectPostDetails"/>
+        FROM post p
+        JOIN bookmark b ON p.post_id = b.post_id
+        LEFT JOIN `user` u ON p.user_id = u.user_id
+        LEFT JOIN music m ON p.music_id = m.music_id
+        WHERE b.user_id = #{userId}
+        <include refid="cursorCondition"/>
+        ORDER BY p.post_id DESC
+        LIMIT 10
+    </select>
+
+	<!-- 포스트 추가 -->
+    <insert id="insertPost" useGeneratedKeys="true" keyProperty="postId">
+        INSERT INTO post (user_id, music_id, caption, created_at) 
+        VALUES (#{userId}, #{musicId}, #{caption}, NOW())
+    </insert>
+    
+    <!-- 포스트 작성 후 생성되는 응답 객체 조회 메서드 -->
+	<select id="findPostResponseById" resultType="com.own.domain.post.dto.response.PostResponse">
+    	SELECT 
+        <include refid="selectPostDetails"/>
+    	FROM post p
+    	LEFT JOIN `user` u ON p.user_id = u.user_id
+    	LEFT JOIN music m ON p.music_id = m.music_id
+    	WHERE p.post_id = #{postId}
+	</select>
+
+	<!-- 포스트 수정 -->
+	<update id="updatePost">
+		UPDATE post
+		SET caption = #{caption}
+		WHERE post_id = #{postId}
+	</update>
+	
+	<!-- 포스트 삭제 -->
+	<delete id="deletePost">
+		DELETE FROM post
+		WHERE post_id = #{postId}
+	</delete>
+
+	
+
+
+</mapper>

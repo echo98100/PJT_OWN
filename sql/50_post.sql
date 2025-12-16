@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS post;
+
+CREATE TABLE post (
+	post_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    music_id INT NOT NULL,
+    caption TEXT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_post_user FOREIGN KEY (user_id)
+		REFERENCES user(user_id) ON DELETE CASCADE,
+	CONSTRAINT fk_post_music FOREIGN KEY (music_id)
+		REFERENCES music(music_id) ON DELETE CASCADE
+);

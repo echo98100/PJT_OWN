@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.own.domain.workout.dao.WorkoutDao">
+
+	<select id="selectAllWorkoutTypes" resultType="com.own.domain.workout.dto.model.WorkoutType">
+		 SELECT workout_type_id, workout_name
+   		 FROM workout_type
+	</select>
+
+
+
+	<!-- 특정Id 포스트의 태그 SELECT -->
+	<select id="selectWorkoutTypesByPostId" resultType="com.own.domain.workout.dto.model.WorkoutType">
+	    SELECT 
+	        wt.workout_type_id AS workoutTypeId,
+	        wt.workout_name AS workoutName
+	    FROM workout_type wt
+	    JOIN post_workout_type pwt 
+	        ON wt.workout_type_id = pwt.workout_type_id
+	    WHERE pwt.post_id = #{postId}
+	    ORDER BY wt.workout_type_id
+	</select>
+	
+	
+	<!-- 포스트 태그 등록 -->
+	<insert id="insertPostWorkoutType">
+		INSERT INTO post_workout_type (post_id, workout_type_id)
+		VALUES ( #{postId}, #{typeId});
+	</insert>
+	
+	
+
+</mapper>

@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS emotion_type;
+
+CREATE TABLE IF NOT EXISTS emotion_type (
+emotion_type_id INT PRIMARY KEY AUTO_INCREMENT,
+emotion_name VARCHAR(50) NOT NULL UNIQUE
+);

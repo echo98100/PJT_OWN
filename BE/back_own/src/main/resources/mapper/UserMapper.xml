@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.own.domain.user.dao.UserDao">
+
+	<!-- 회원가입 -->
+	<insert id="signupUser" parameterType="com.own.domain.user.dto.request.UserSignupRequest">
+		INSERT INTO users
+		(
+			name, nickname, email, password, profile_img
+		)
+		VALUES
+		(
+			#{name}, #{nickname}, #{email}, #{password}, #{profileImg}
+		)
+	</insert>
+
+	<!-- userId로 유저 조회 -->
+	<select id="selectUserById" resultType="com.own.domain.user.dto.response.UserResponse">
+		SELECT
+			name, nickname, email,
+			profile_img AS profileImg,
+			tier_level AS tierLevel
+		FROM users
+		WHERE user_id = #{userId} AND deleted_at IS NULL
+	</select>
+	
+	<!-- 유저 정보수정 -->
+	<update id="updateUser">
+		UPDATE users
+		SET
+			profile_img = #{profileImg},
+			password = #{password}
+		WHERE user_id = #{userId} AND deleted_at IS NULL
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	
+	<update id="deleteUser">
+		UPDATE users
+		SET deleted_at = NOW()
+		WHERE user_id = #{userId} AND deleted_at IS NULL
+	</update>
+	
+	<!-- 유저 등급 조회 -->
+	<select id="selectUserTierById" resultType="com.own.domain.user.dto.response.UserTierResponse">
+		SELECT
+			tier_level AS tierLevel
+		FROM users
+		WHERE user_id = #{userId} AND deleted_at IS NULL
+	</select>	
+	
+
+</mapper>

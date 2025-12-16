@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.own.domain.emotion.dao.EmotionDao">
+
+	<select id="selectAllEmotionTypes" resultType="com.own.domain.emotion.dto.model.EmotionType">
+		 SELECT emotion_type_id, emotion_name
+   		 FROM emotion_type
+	</select>
+
+
+    <!-- 특정 포스트 감정 태그 조회 -->
+    <select id="selectEmotionTypesByPostId"
+            resultType="com.own.domain.emotion.dto.model.EmotionType">
+        SELECT et.emotion_type_id AS emotionTypeId,
+               et.emotion_name AS emotionName
+        FROM emotion_type et
+        JOIN post_emotion_type pet
+             ON et.emotion_type_id = pet.emotion_type_id
+        WHERE pet.post_id = #{postId}
+        ORDER BY et.emotion_type_id
+    </select>
+
+    <!-- post_emotion_type insert -->
+    <insert id="insertPostEmotionType">
+        INSERT INTO post_emotion_type (post_id, emotion_type_id)
+        VALUES (#{postId}, #{typeId})
+    </insert>
+
+</mapper>

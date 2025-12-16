@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS music;
+
+CREATE TABLE IF NOT EXISTS music (
+music_id INT PRIMARY KEY AUTO_INCREMENT,
+spotify_track_id VARCHAR(100) NOT NULL,
+title VARCHAR(100) NOT NULL,
+artist VARCHAR(100) NOT NULL,
+album_img VARCHAR(255) NOT NULL,
+duration int NOT NULL,
+preview_url VARCHAR(255) NOT NULL
+);
+
