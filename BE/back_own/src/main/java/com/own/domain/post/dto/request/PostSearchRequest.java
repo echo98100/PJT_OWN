@@ -1,18 +1,21 @@
 package com.own.domain.post.dto.request;
 
-import java.util.List;
-
 public class PostSearchRequest {
 	private Integer userId; // 특정 유저의 게시글/좋아요/북마크 조회할 때 사용
-	private Integer lastPostId; // 무한스크롤 커서 (null이면 첫페이지)
+	private Integer loginUserId;
+	private Integer lastPostId; // 무한스크롤 커서 (null 이면 첫페이지)
 	private Integer size; // 한번에 몇개 가져올지 개수
 
 	private Boolean liked; // 좋아요 목록 요청인지
 	private Boolean bookmarked; // 북마크 목록 요청인지
 	
-	public PostSearchRequest(Integer userId, Integer lastPostId, Integer size, Boolean liked, Boolean bookmarked) {
+	public PostSearchRequest() {
+	 }
+	
+	public PostSearchRequest(Integer userId, Integer loginUserId, Integer lastPostId, Integer size, Boolean liked, Boolean bookmarked) {
 		super();
 		this.userId = userId;
+		this.loginUserId = loginUserId;
 		this.lastPostId = lastPostId;
 		this.size = size;
 		this.liked = liked;
@@ -21,9 +24,19 @@ public class PostSearchRequest {
 	public Integer getUserId() {
 		return userId;
 	}
+	
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+	
+	public Integer getLoginUserId() {
+        return loginUserId;
+    }
+    
+    public void setLoginUserId(Integer loginUserId) {
+        this.loginUserId = loginUserId;
+    }
+    
 	public Integer getLastPostId() {
 		return lastPostId;
 	}
@@ -48,11 +61,12 @@ public class PostSearchRequest {
 	public void setBookmarked(Boolean bookmarked) {
 		this.bookmarked = bookmarked;
 	}
+
 	@Override
 	public String toString() {
-		return "PostSearchRequest [userId=" + userId + ", lastPostId=" + lastPostId + ", size=" + size + ", liked="
-				+ liked + ", bookmarked=" + bookmarked + "]";
+		return "PostSearchRequest [userId=" + userId + ", loginUserId=" + loginUserId + ", lastPostId=" + lastPostId
+				+ ", size=" + size + ", liked=" + liked + ", bookmarked=" + bookmarked + "]";
 	}
-
+	
 	
 }

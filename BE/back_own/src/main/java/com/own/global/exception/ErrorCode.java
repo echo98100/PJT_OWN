@@ -18,7 +18,15 @@ public enum ErrorCode {
 	ALREADY_LIKED(HttpStatus.CONFLICT, "이미 좋아요된 게시물입니다."), // HTTP 409
 	LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "삭제할 좋아요를 찾을 수 없습니다."), // HTTP 404 Not Found
 	//로그인 관련 오류
-	INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"비밀번호가 틀렸습니다.");
+	INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"비밀번호가 틀렸습니다."),
+	//포스트 저장 오류
+	INVALID_MUSIC_REQUEST(HttpStatus.BAD_REQUEST, "음악을 선택해주세요."), 
+	INVALID_WORKOUT_REQUEST(HttpStatus.BAD_REQUEST, "운동을 선택해주세요."), 
+	INVALID_EMOTION_REQUEST(HttpStatus.BAD_REQUEST, "감정을 하나 이상 선택해주세요.");
+	
+	
+	
+	
 
     private final HttpStatus status;
     private final String message;

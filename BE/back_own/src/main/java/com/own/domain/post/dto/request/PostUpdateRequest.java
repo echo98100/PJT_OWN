@@ -6,6 +6,9 @@ public class PostUpdateRequest {
 	private String caption;
 	private List <Integer> emotionTags;
 	
+	public PostUpdateRequest() {
+	
+	}
 	public PostUpdateRequest(String caption, List<Integer> emotionTags) {
 		super();
 		this.caption = caption;

@@ -5,14 +5,16 @@ import java.util.*;
 public class PostCreateRequest {
 	private Integer postId; 
 	private Integer userId;
-	private int workoutTag;
+	private Integer workoutTag;  // 선택 전 = null
 	private List <Integer> emotionTags; 
-	private int musicId; 
+	private Integer musicId; 
 	private String caption;
 	private String spotifyTrackUrl;
 	
+    public PostCreateRequest() {
+    }
 	
-	public PostCreateRequest(Integer postId, int workoutTag, List<Integer> emotionTags, int musicId, String caption,
+	public PostCreateRequest(Integer postId, Integer workoutTag, List<Integer> emotionTags, Integer musicId, String caption,
 			String spotifyTrackUrl, Integer userId) { 
 		super();
 		this.postId = postId;
@@ -40,10 +42,10 @@ public class PostCreateRequest {
 		this.userId = userId;
 	}
 	
-	public int getWorkoutTag() {
+	public Integer getWorkoutTag() {
 		return workoutTag;
 	}
-	public void setWorkoutTag(int workoutTag) {
+	public void setWorkoutTag(Integer workoutTag) {
 		this.workoutTag = workoutTag;
 	}
 	public List<Integer> getEmotionTags() {
@@ -52,10 +54,10 @@ public class PostCreateRequest {
 	public void setEmotionTags(List<Integer> emotionTags) {
 		this.emotionTags = emotionTags;
 	}
-	public int getMusicId() {
+	public Integer getMusicId() {
 		return musicId;
 	}
-	public void setMusicId(int musicId) {
+	public void setMusicId(Integer musicId) {
 		this.musicId = musicId;
 	}
 	public String getCaption() {

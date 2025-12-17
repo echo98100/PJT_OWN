@@ -6,10 +6,10 @@ public class Post {
 	private int postId;
 	private int userId;
 	private String caption;
-	private int musicId;
+	private Integer musicId;
 	private LocalDateTime createdAt;
 	
-	public Post(int postId, int userId, String caption, int musicId, LocalDateTime createdAt) {
+	public Post(int postId, int userId, String caption, Integer musicId, LocalDateTime createdAt) {
 		super();
 		this.postId = postId;
 		this.userId = userId;
@@ -36,10 +36,10 @@ public class Post {
 	public void setCaption(String caption) {
 		this.caption = caption;
 	}
-	public int getMusicId() {
+	public Integer getMusicId() {
 		return musicId;
 	}
-	public void setMusicId(int musicId) {
+	public void setMusicId(Integer musicId) {
 		this.musicId = musicId;
 	}
 	public LocalDateTime getCreatedAt() {
