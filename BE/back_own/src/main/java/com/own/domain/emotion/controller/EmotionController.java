@@ -9,9 +9,11 @@ import com.own.domain.emotion.dto.model.EmotionType;
 import com.own.domain.emotion.dto.request.PostEmotionRequest;
 import com.own.domain.emotion.dto.response.EmotionTypeResponse;
 import com.own.domain.emotion.service.EmotionService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api/emotion")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class EmotionController {
 
     @Autowired

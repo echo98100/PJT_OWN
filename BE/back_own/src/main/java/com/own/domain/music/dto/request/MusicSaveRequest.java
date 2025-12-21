@@ -9,6 +9,10 @@ public class MusicSaveRequest {
 	private int duration;
 	private String previewUrl;
 	
+	public MusicSaveRequest() {
+		
+	}
+	
 	public MusicSaveRequest(Integer musicId, String musicTitle, String artist, String albumImg, String spotifyTrackId,
 			int duration, String previewUrl) {
 		super();

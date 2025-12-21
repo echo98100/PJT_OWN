@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +29,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/post")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class PostController {
 
 	@Autowired
@@ -39,13 +41,13 @@ public class PostController {
 		//1. 세션에서 로그인 사용자 ID를 가져옴 (로그인 시 "loginUser"라는 이름으로 저장)
 		Integer currentUserId = (Integer) session.getAttribute("loginUserId");
 		
-		if (currentUserId == null) {
-	        // 2. 로그인되지 않은 경우의 예외 처리 (401 Unauthorized 등)
-	        throw new CustomException(ErrorCode.USER_NOT_FOUND); 
-	    }
+//		if (currentUserId == null) {
+//	        // 2. 로그인되지 않은 경우의 예외 처리 (401 Unauthorized 등)
+//	        throw new CustomException(ErrorCode.USER_NOT_FOUND); 
+//	    }
 		
 		//테스트용
-		//currentUserId = 1;
+		currentUserId = 1;
 		
 		//가져온 ID를 PostCreateRequest 객체에 설정
 		request.setUserId(currentUserId);
