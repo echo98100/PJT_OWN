@@ -61,7 +61,7 @@ const searchQuery = ref('');
 const searchResults = ref([]);
 const isSearching = ref(false);
 
-const spotifyToken = 'BQAMsLKIXxqFZpneiuvd4svidGRmgaIQkq0_SWYKpCKpmUTUFfKvrkkvEKgU9jVfV8W30k8hu1Sx1d4r5JsqapPAuTu51RY-KlbyDhSq6gLodw1qkUyl-YlFqKvx1OPDVCzXUyllRQk';
+const spotifyToken = 'BQA_kMZAl3y0tVP4bYQuBegdo-BwrNgHqRlZhhDKwHBeDu9VwqyaefRjSNb6me3z73GpsYFlVYAD_NZiaNl276uBNWUoVuGuo_D3F5hAxRff_wnDukb3bFj1klBiklEedbjS9BXZgrw';
 
 const handleSearch = async () => {
     if (!searchQuery.value.trim()) return;
@@ -130,18 +130,6 @@ const confirmSelection = (music) => {
 </script>
 
 <style scoped>
-
-/* .music-selection-area { display: flex; gap: 30px; margin: 20px 0; height: 450px; }
-.selection-preview { flex: 1; background: #f8f9fa; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; border: 1px dashed #ccc; }
-.search-results { flex: 1.5; background: #fff; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; }
-.results-scroll { overflow-y: auto; flex: 1; }
-.preview-img { width: 100%; max-width: 200px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); margin-bottom: 15px; }
-.p-title { font-weight: bold; font-size: 1.1rem; margin: 5px 0; }
-.p-artist { color: #666; margin-bottom: 15px; }
-.empty-msg { margin-top: 100px; color: #999; text-align: center; }
-.search-bar { display: flex; gap: 10px; margin-bottom: 20px; }
-.search-bar input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
-버튼 스타일 생략 (이전과 동일) */
 
 .step-container {
     max-width: 1200px;

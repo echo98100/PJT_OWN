@@ -1,5 +1,10 @@
 package com.own.domain.post.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,7 @@ import com.own.domain.post.dao.PostDao;
 import com.own.domain.post.dto.request.PostCreateRequest;
 import com.own.domain.post.dto.request.PostSearchRequest;
 import com.own.domain.post.dto.request.PostUpdateRequest;
+import com.own.domain.post.dto.response.MusicRankResponse;
 import com.own.domain.post.dto.response.PostResponse;
 import com.own.domain.workout.service.WorkoutService;
 import com.own.global.exception.CustomException;
@@ -122,5 +128,23 @@ public class PostServiceImpl implements PostService {
 		}
 		return deleted; // /성공 시 1
 
+	}
+
+	@Override
+	public List<MusicRankResponse> getMusicRank() {
+		
+		// 이번주 월요일 00:00:00 계산
+		LocalDateTime startOfWeek = LocalDateTime.now()
+				.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)) //이번 주 월요일로 날짜 이동
+				.with(LocalTime.MIN); // 시간 00:00:00 으로 설정 
+		
+		// 위의 식으로 계산된 이번주 월요일을 넘겨준다
+		List<MusicRankResponse> rankList = postDao.findMusicRank(startOfWeek);
+		
+		if (rankList == null || rankList.isEmpty()) {
+			return new ArrayList<>();
+		}
+		
+		return rankList;
 	}
 }

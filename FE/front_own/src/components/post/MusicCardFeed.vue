@@ -2,7 +2,7 @@
   <div class="music-card-feed">
     <img :src="music.albumImg" alt="Album Art" class="album-img" />
     <div class="music-info">
-      <h4 class="title">{{ music.title }}</h4>
+      <h4 class="title">{{ music.musicTitle }}</h4>
       <p class="artist">{{ music.artist }}</p>
     </div>
     <MusicPlayer :previewUrl="music.previewUrl" />
@@ -15,6 +15,12 @@ import MusicPlayer from './MusicPlayer.vue';
 defineProps({
   music: Object // { title, artist, albumImg, previewUrl } 구성
 });
+
+// 이미지 로드 실패 시 대체 이미지로 교체하는 함수
+const handleImageError = (e) => {
+  e.target.src = 'https://via.placeholder.com/50?text=No+Img'; // 혹은 서비스 기본 로고
+};
+
 </script>
 
 <style scoped>

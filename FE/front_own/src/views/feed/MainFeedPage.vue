@@ -3,13 +3,11 @@
     <header class="feed-header">
       <h2>최신 피드</h2>
     </header>
-
+    
+    <RankingSection></RankingSection>
     <section class="recommend-section">
       <h3>🔥 오늘의 추천 조합</h3>
-      <div class="recommend-container">
-        <div class="recommend-card">등 운동 + 신나는 Rock</div>
-        <div class="recommend-card">요가 + 차분한 Lo-fi</div>
-      </div>
+      
     </section>
 
     <PostList />
@@ -18,6 +16,7 @@
 
 <script setup>
 import PostList from '@/components/feed/PostList.vue';
+import RankingSection from '@/components/feed/RankingSection.vue';
 </script>
 
 <style scoped>
@@ -25,12 +24,5 @@ import PostList from '@/components/feed/PostList.vue';
 .feed-header { margin-bottom: 24px; }
 .recommend-section { margin-bottom: 30px; }
 .recommend-container { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; }
-.recommend-card {
-  min-width: 200px;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px;
-  font-weight: bold;
-}
+
 </style>

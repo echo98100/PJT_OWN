@@ -10,14 +10,14 @@
 
 <script setup>
 
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 
 const props = defineProps({
     previewUrl: String // 미리듣기 URL
 });
 
 const isPlaying = ref(false);
-const audioPlayer = ref(null);
+const audio = ref(null);
 
 const togglePlay = () => {
     if(!props.previewUrl) {
@@ -25,12 +25,26 @@ const togglePlay = () => {
         return;
     }
 
+    if(!audio.value) {
+        audio.value = new Audio(props.previewUrl);
+        audio.value.onended = () => {
+            isPlaying.value = false;
+        }
+    }
+
     if(isPlaying.value){
-        audioPlayer.value.pause();
+        audio.value.pause();
     } else {
-        audioPlayer.value.play();
+        audio.value.play();
     } 
     isPlaying.value = !isPlaying.value;
+
+    onBeforeMount(() => {
+        if (audio.value) {
+            audio.value.pause();
+            audio.value = null;
+        }
+    });
 };
 
 

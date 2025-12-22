@@ -6,6 +6,7 @@ import java.util.List;
 import com.own.domain.post.dto.request.PostCreateRequest;
 import com.own.domain.post.dto.request.PostSearchRequest;
 import com.own.domain.post.dto.request.PostUpdateRequest;
+import com.own.domain.post.dto.response.MusicRankResponse;
 import com.own.domain.post.dto.response.PostResponse;
 
 public interface PostService {
@@ -29,4 +30,8 @@ public interface PostService {
 			
 		//특정 포스트 삭제
 		int deletePost(int postId);
+		
+		
+		// 태그별 랭킹 1등 노래 조회
+		List<MusicRankResponse> getMusicRank();
 }

@@ -50,7 +50,7 @@ export const useCreateStore = defineStore('create', () => {
   const resetData = () => {
     currentStep.value = 1;
     workoutTag.value = '';
-    emotionTag.value = '';
+    emotionTag.value = [];
     selectedMusic.value = null;
     caption.value = '';
   };

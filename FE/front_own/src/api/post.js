@@ -1,5 +1,29 @@
 import instance from './index';
 
+// 게시글 생성
 export const createPost = (postData) => {
     return instance.post('/post',postData);
+}
+
+// 게시글 전체 조회 (무한스크롤 적용) / params에 마지막포스트 아이디, 크기를 보내서 무한스크롤에 사용
+export const getPosts = (params) => {
+    return instance.get('/post', { params });
+}
+
+// 특정 유저의 게시글 조회
+export const getUserPosts = (userId, params) => {
+    return instance.get(`/post/users/${userId}`, { params });
+}
+
+// 특정 유저가 좋아요한 게시글 조회
+
+// 특정 유저가 북마크한 게시글 조회
+
+// 게시글 수정
+
+// 게시글 삭제
+
+// 노래 랭킹 함수 호출
+export const getMusicRank = () => {
+    return instance.get('/post/rank');
 }

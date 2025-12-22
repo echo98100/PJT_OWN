@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.own.domain.post.dto.request.PostCreateRequest;
 import com.own.domain.post.dto.request.PostSearchRequest;
 import com.own.domain.post.dto.request.PostUpdateRequest;
+import com.own.domain.post.dto.response.MusicRankResponse;
 import com.own.domain.post.dto.response.PostResponse;
 import com.own.domain.post.service.PostService;
 import com.own.global.exception.CustomException;
@@ -100,5 +101,12 @@ public class PostController {
 		postService.deletePost(postId);
 
 		return ResponseEntity.noContent().build();  // 204
+	}
+	
+	@GetMapping("/rank")
+	public ResponseEntity<List<MusicRankResponse>> getMusicRank() {
+		List<MusicRankResponse> musicRank = postService.getMusicRank();
+		
+		return ResponseEntity.ok(musicRank);
 	}
 }

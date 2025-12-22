@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
+
     import { useCreateStore } from '@/stores/create';
     import { createPost } from '@/api/post';
     import { saveMusicToDb } from '@/api/music';
@@ -40,8 +40,9 @@
             previewUrl: createStore.selectedMusic.previewUrl || null
         };
 
-        console.log("1. 음악 저장 요청:", JSON.stringify(musicPayload, null, 2));
+        console.log("1. 음악 저장 요청:", musicPayload);
         const musicResponse = await saveMusicToDb(musicPayload);
+        const savedMusicId = musicResponse.data.musicId;
         console.log("1. 음악 저장 응답:", musicResponse.data);
         
         // musicId 확인
@@ -51,13 +52,12 @@
 
         // 2단계: 포스트 생성 (musicId는 서버에서 받은 값 사용)
         const postPayload = {
-            workoutTag: createStore.workoutTag.workoutTypeId, // Integer로 전송
-            emotionTags: createStore.emotionTag.map(tag => {
-                // emotionTag가 객체 배열인 경우 ID만 추출
-                return typeof tag === 'object' ? tag.id : tag;
-            }),
-            musicId: musicResponse.data.musicId, // 서버에서 반환받은 musicId
+            workoutTag: createStore.workoutTag?.workoutTypeId, // Integer로 전송
+            emotionTags: createStore.emotionTag.map(tag => tag.emotionTypeId),
+
+            musicId: savedMusicId,
             caption: createStore.caption.trim(),
+
             spotifyTrackUrl: `https://open.spotify.com/track/${createStore.selectedMusic.spotifyTrackId}`
         };
 

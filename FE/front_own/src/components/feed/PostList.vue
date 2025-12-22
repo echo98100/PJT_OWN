@@ -11,33 +11,38 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import PostItem from './PostItem.vue';
+import { getPosts } from '@/api/post';
 
 const posts = ref([]); // 게시글 데이터 리스트
 const loading = ref(false);
 const loadMoreTrigger = ref(null);
 
-// 임시 데이터 로드 함수 (나중에 API 연결)
+const lastPostId = ref(null); // 마지막으로 가져온 포스트아이디
+const size = 5; // 한페이지당 가져올 포스트 수
+
 const fetchPosts = async () => {
   if (loading.value) return;
   loading.value = true;
   
-  // API 호출 시뮬레이션
-  setTimeout(() => {
-    const newPosts = Array.from({ length: 5 }, (_, i) => ({
-      id: posts.value.length + i,
-      nickname: '운동매니아',
-      userProfile: 'https://via.placeholder.com/32',
-      createdAt: '2시간 전',
-      workoutTag: '하체',
-      emotionTag: '뿌듯함',
-      caption: '오늘 스쿼트 100개 완료! 음악이 좋아서 더 잘됐네요.',
-      music: { title: 'DYNAMITE', artist: 'BTS', albumImg: 'https://via.placeholder.com/50' },
-      likeCount: 12,
-      bookmarkCount: 5
-    }));
-    posts.value.push(...newPosts);
+  try {
+    const params = {
+      size: size,
+      lastPostId: lastPostId.value
+    };
+
+    const response = await getPosts(params);
+    const newPosts = response.data;
+
+    if(newPosts.length > 0) {
+      posts.value.push(...newPosts);
+      lastPostId.value = newPosts[newPosts.length - 1].postId;
+    }
+  } catch (error) {
+    console.error("로드 실패", error);
+  } finally{
     loading.value = false;
-  }, 1000);
+  }
+  
 };
 
 // Intersection Observer 설정 -> 무한 스크롤

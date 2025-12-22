@@ -149,6 +149,41 @@
 		WHERE post_id = #{postId}
 	</delete>
 
+
+	<!-- 음악 랭킹 조회 -->
+	<select id="findMusicRank" parameterType="java.time.LocalDateTime" resultType="com.own.domain.post.dto.response.MusicRankResponse">
+		
+		SELECT
+			workoutName,
+			musicTitle,
+			artist,
+			albumImg,
+			previewUrl
+		FROM (
+			SELECT
+				w.workout_name AS workoutName,
+				m.title AS musicTitle,
+				m.artist AS artist,
+				m.album_img AS albumImg,
+				m.preview_url AS previewUrl,
+				ROW_NUMBER() OVER (
+					PARTITION BY w.workout_type_id
+					ORDER BY COUNT(p.post_id) DESC, m.music_id ASC
+				) AS rnk
+			FROM post p
+			JOIN music m ON p.music_id = m.music_id
+			JOIN post_workout_type pwt ON p.post_id = pwt.post_id
+			JOIN workout_type w ON pwt.workout_type_id = w.workout_type_id
+			WHERE p.created_at >= #{startDate}
+			GROUP BY w.workout_type_id, m.music_id	
+		) ranked_music
+		WHERE rnk = 1
+		ORDER BY workoutName ASC
+	
+	</select>
+	
+	
+	
 	
 
 

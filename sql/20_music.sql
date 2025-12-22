@@ -7,10 +7,8 @@ title VARCHAR(100) NOT NULL,
 artist VARCHAR(100) NOT NULL,
 album_img VARCHAR(255) NOT NULL,
 duration int NOT NULL,
-preview_url VARCHAR(255) NOT NULL
+preview_url VARCHAR(255) NULL
 );
-
-ALTER TABLE music MODIFY COLUMN preview_url VARCHAR(255) NULL;
 
 -- 20_music_dummy.sql
 -- 음악 더미 데이터

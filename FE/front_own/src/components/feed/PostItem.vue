@@ -3,17 +3,25 @@
     <div class="post-header">
       <div class="user-info">
         <img :src="post.userProfile" class="user-avatar" />
-        <span class="user-nickname">{{ post.nickname }}</span>
-        <span class="post-date">{{ post.createdAt }}</span>
+        <div class="user-meta">
+          <span class="user-nickname">{{ post.nickname || '익명' }}</span>
+          <span class="tier-badge" v-if="post.tierLevel">{{ post.tierLevel }}</span>
+          <span class="post-date">{{ formatDate(post.createdAt) }}</span>
+        </div>
       </div>
     </div>
 
-    <MusicCardFeed :music="post.music" />
+    <MusicCardFeed :music="{
+      musicTitle: post.musicTitle,
+      artist: post.artist,
+      albumImg: post.albumImg,
+      previewUrl: post.previewUrl
+    }" />
 
     <div class="post-content">
       <div class="tags">
-        <span class="tag workout-tag">#{{ post.workoutTag }}</span>
-        <span class="tag emotion-tag">#{{ post.emotionTag }}</span>
+        <span class="tag workout-tag" v-if="workoutName">{{ workoutName }}</span>
+        <span v-for="id in post.emotionTag" :key="id" class="tag emotion-tag" >{{ getEmotionName(id) }}</span>
       </div>
       <p class="caption">{{ post.caption }}</p>
     </div>
@@ -26,11 +34,31 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import MusicCardFeed from '@/components/post/MusicCardFeed.vue';
+import { useCreateStore } from '@/stores/create';
 
-defineProps({
+const props = defineProps({
   post: Object
 });
+
+const createStore = useCreateStore();
+
+const formatDate = (dateArray) => {
+  if(!dateArray) return '방금 전';
+  return new Date(dateArray).toLocaleDateString();
+};
+
+const workoutName = computed(() => {
+  const found = createStore.workoutTags.find(t => t.workoutTypeId === props.post.workoutTag);
+  return found.workoutName; 
+});
+
+const getEmotionName = (id) => {
+  const found = createStore.emotionTags.find(t => t.emotionTypeId === id);
+  return found.emotionName;
+}
+
 </script>
 
 <style scoped>
