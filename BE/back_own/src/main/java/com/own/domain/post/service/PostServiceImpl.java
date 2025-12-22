@@ -147,4 +147,10 @@ public class PostServiceImpl implements PostService {
 		
 		return rankList;
 	}
+
+	@Override
+	public int getWeeklyWorkoutCount(int userId) {
+		
+		return postDao.countWeeklyPosts(userId);
+	}
 }

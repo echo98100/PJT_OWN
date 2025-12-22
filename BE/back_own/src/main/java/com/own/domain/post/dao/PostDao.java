@@ -48,5 +48,7 @@ public interface PostDao {
 	//태그별 랭킹 1등 노래 조회
 	public List<MusicRankResponse> findMusicRank(LocalDateTime startDate);
 	
+	//이번주 운동횟수 조회
+	public int countWeeklyPosts(int userId);
 	
 }

@@ -27,3 +27,8 @@ export const getUserPosts = (userId, params) => {
 export const getMusicRank = () => {
     return instance.get('/post/rank');
 }
+
+// 이번주 운동횟수 함수 호출
+export const getWeeklyCount = () => {
+    return instance.get('/post/week-count');
+}

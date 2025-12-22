@@ -23,6 +23,7 @@ import com.own.domain.post.dto.request.PostUpdateRequest;
 import com.own.domain.post.dto.response.MusicRankResponse;
 import com.own.domain.post.dto.response.PostResponse;
 import com.own.domain.post.service.PostService;
+import com.own.domain.user.dto.model.User;
 import com.own.global.exception.CustomException;
 import com.own.global.exception.ErrorCode;
 
@@ -103,10 +104,25 @@ public class PostController {
 		return ResponseEntity.noContent().build();  // 204
 	}
 	
+	//랭킹조회
 	@GetMapping("/rank")
 	public ResponseEntity<List<MusicRankResponse>> getMusicRank() {
 		List<MusicRankResponse> musicRank = postService.getMusicRank();
 		
 		return ResponseEntity.ok(musicRank);
+	}
+	
+	//이번주 운동횟수 조회
+	@GetMapping("/week-count")
+	public ResponseEntity<Integer> getWeeklyCount(HttpSession session) {
+		
+		Integer userId = (Integer) session.getAttribute("loginUserId");
+		
+		if(userId == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+		
+		int count = postService.getWeeklyWorkoutCount(userId);
+		return ResponseEntity.ok(count);
 	}
 }

@@ -61,7 +61,7 @@ const searchQuery = ref('');
 const searchResults = ref([]);
 const isSearching = ref(false);
 
-const spotifyToken = 'BQA_kMZAl3y0tVP4bYQuBegdo-BwrNgHqRlZhhDKwHBeDu9VwqyaefRjSNb6me3z73GpsYFlVYAD_NZiaNl276uBNWUoVuGuo_D3F5hAxRff_wnDukb3bFj1klBiklEedbjS9BXZgrw';
+const spotifyToken = 'BQD63vKL_zt8hxertwQW8dZUlhCx2T6-laErlPpyGwOLAKWKasSrRTx_5KLENbkNs7_CRjJajverSfgB7QiPenkjwbh7R-vF4TeEChcjcl18oeUJIWzFGyxrZtr99Fw-klOkQA92k70';
 
 const handleSearch = async () => {
     if (!searchQuery.value.trim()) return;

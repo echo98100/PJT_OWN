@@ -72,9 +72,12 @@ export default {
 
         // 성공 (200)
         this.authStore.setUser(response.data);
+
+        sessionStorage.setItem('isLogin', 'true');
+
          alert('로그인 성공!');
         // 메인 페이지로 이동
-        this.$router.push("/feed"); //메인 피드 경로 이게 맞나
+        this.$router.push("/"); //메인 피드 경로 이게 맞나
 
       } catch (error) {
         // 실패 처리

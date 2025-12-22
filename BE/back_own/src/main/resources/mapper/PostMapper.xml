@@ -182,6 +182,13 @@
 	
 	</select>
 	
+	<!-- 이번주 운동 횟수 조회 -->
+	<select id="countWeeklyPosts" resultType="int">
+   SELECT COUNT(*)
+    FROM post
+    WHERE user_id = #{userId}
+      AND created_at >= DATE_SUB(CURDATE(), INTERVAL DAYOFWEEK(CURDATE())-1 DAY)
+	</select>
 	
 	
 	

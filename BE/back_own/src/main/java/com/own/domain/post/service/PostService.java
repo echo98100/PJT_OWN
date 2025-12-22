@@ -34,4 +34,7 @@ public interface PostService {
 		
 		// 태그별 랭킹 1등 노래 조회
 		List<MusicRankResponse> getMusicRank();
+		
+		// 이번주 운동횟수 조회
+		int getWeeklyWorkoutCount(int userId);
 }
