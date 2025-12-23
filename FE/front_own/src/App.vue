@@ -64,10 +64,8 @@ onMounted(async () => {
 }
 
 .main-content {
-  flex: 0 0 820px;
-  width: 820px;
-  border-left: 1px solid #2a2a2a;
-  border-right: 1px solid #2a2a2a;
+  flex: 0 0 640px;
+  width: 640px;
   height: 100vh;
   overflow-y: auto; /* 본문만 스크롤 가능하게 */
 }

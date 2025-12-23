@@ -7,14 +7,32 @@
         <div class="post-header">
           <div class="user-info">
             <img 
-              :src="post.userProfile || '/default-profile.png'" 
+              :src="post.profileImg || '/default-profile.png'" 
               class="user-avatar" 
               alt="프로필"
             />
             <div class="user-meta">
-              <span class="user-nickname">{{ post.nickname || '익명' }}</span>
+
+              <div class="user-name-row">
+                <span class="user-nickname">{{ post.nickname || '익명' }}</span>
+
+                <span
+                  v-if="post.tierLevel"
+                    class="tier-badge"
+                    :class="{
+                      'tier-pro': post.tierLevel === 3,
+                      'tier-amateur': post.tierLevel === 2,
+                      'tier-newbie': post.tierLevel === 1
+                        }" >
+                  <template v-if="post.tierLevel === 3">Pro</template>
+                  <template v-else-if="post.tierLevel === 2">Amateur</template>
+                  <template v-else>Newbie</template>
+                </span>
+                
+              </div>
               <span class="post-date">{{ formatDate(post.createdAt) }}</span>
-              <span class="tier-badge" v-if="post.tierLevel">{{ post.tierLevel }}</span>
+
+
             </div>
           </div>
         </div>
@@ -85,18 +103,31 @@ const authStore = useAuthStore();
 
 const formatDate = (dateArray) => {
   if (!dateArray) return '방금 전';
-  
-  try {
-    // dateArray가 배열인 경우 [2025, 12, 23, 14, 30, 0]
-    if (Array.isArray(dateArray)) {
-      const [year, month, day] = dateArray;
-      return `${year}.${month}.${day}`;
-    }
-    // 문자열이나 Date 객체인 경우
-    return new Date(dateArray).toLocaleDateString('ko-KR');
-  } catch (error) {
-    return '방금 전';
+
+  let createdDate;
+
+  // [2025, 12, 23, 14, 30, 0] 형태 대응
+  if (Array.isArray(dateArray)) {
+    const [year, month, day, hour = 0, min = 0, sec = 0] = dateArray;
+    createdDate = new Date(year, month - 1, day, hour, min, sec);
+  } else {
+    createdDate = new Date(dateArray);
   }
+
+  const now = new Date();
+  const diffMs = now - createdDate;
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+
+  if (diffSec < 60) return '방금 전';
+  if (diffMin < 60) return `${diffMin}분 전`;
+  if (diffHour < 24) return `${diffHour}시간 전`;
+  if (diffDay < 7) return `${diffDay}일 전`;
+
+  // 일주일 넘으면 날짜 표시
+  return createdDate.toLocaleDateString('ko-KR');
 };
 
 const workoutName = computed(() => {
@@ -192,6 +223,18 @@ onMounted(async () => {
   }
 });
 
+const tierLabel = computed(() => {
+  if (props.post.tierLevel === 3) return 'Pro';
+  if (props.post.tierLevel === 2) return 'Amateur';
+  return 'Newbie';
+});
+
+const tierClass = computed(() => {
+  if (props.post.tierLevel === 3) return 'tier-pro';
+  if (props.post.tierLevel === 2) return 'tier-amateur';
+  return 'tier-newbie';
+});
+
 </script>
 
 <style scoped>
@@ -227,11 +270,11 @@ onMounted(async () => {
 }
 
 /* 프로필 영역 */
-.user-info { display: flex; align-items: center; gap: 12px; }
-.user-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+.user-info { display: flex; align-items: center; gap: 16px; }
+.user-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
 .user-meta { display: flex; flex-direction: column; gap: 2px; }
-.user-nickname { font-size: 20pt; font-weight: bold; color: white; }
-.post-date { font-size: 14pt; color: #aaa; }
+.user-nickname { font-size: 14pt; font-weight: bold; color: white; line-height: 1.2;}
+.post-date { font-size: 10pt; color: #aaa; }
 
 /* 태그 영역 */
 .tags { margin: 15px 0; display: flex; gap: 8px; flex-wrap: wrap; }
@@ -242,11 +285,40 @@ onMounted(async () => {
 /*캡션 영역 */
 .caption { 
   height: 100px; 
-  font-size: 20pt; 
+  font-size: 12pt; 
   color: #eee; 
   margin: 10px 0;
   overflow-y: auto;
   line-height: 1.4;
+}
+
+.user-name-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tier-badge {
+  margin-top: 2px 8px;
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: white;
+  width: fit-content;
+}
+
+.tier-pro {
+  background-color: #4169E1;
+}
+
+.tier-amateur {
+  background-color: #FF6B6B;
+}
+
+.tier-newbie {
+  background-color: #51CF66;
 }
 
 .post-actions { margin-top: auto; display: flex; gap: 20px; }

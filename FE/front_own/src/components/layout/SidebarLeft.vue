@@ -2,7 +2,9 @@
   <div class="sidebar-left">
     <!-- 로고 -->
     <div class="logo">
-      <div class="logo-icon">로고</div>
+      <router-link to="/">
+        <img src="@/assets/logo/grey.png" alt="OWN LOGO" class="logo-img" />
+      </router-link>
       <!--<h1>OWN</h1> -->
     </div>
 
@@ -71,10 +73,9 @@ export default {
 
 <style scoped>
 .sidebar-left {
-  width: 320px;
+  width: 220px;
   height: 100vh;
-  background-color: #1a1a1a;
-  border-right: 1px solid #2a2a2a;
+  background-color: #212121;
   padding: 24px 16px;
   display: flex;
   flex-direction: column;
@@ -85,20 +86,21 @@ export default {
 /* 로고 */
 .logo {
   text-align: center;
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 40px; /* 미니 프로필과의 간격 */
+  padding: 0 10px;
 }
 
-.logo-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
+.logo-img {
+  width: 80%;       /* 사이드바 너비에 맞춰 꽉 채우기 */
+  max-width: 100px;  /* 너무 크면 최대 수치 제한 */
+  height: auto;      /* 비율 유지 */
+  object-fit: contain;
+  transition: transform 0.2s;
 }
 
-.logo h1 {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
-  letter-spacing: 2px;
+.logo-img:hover {
+  transform: scale(1.05); /* 로고 호버 시 살짝 커지는 효과 */
 }
 
 /* 메뉴 */

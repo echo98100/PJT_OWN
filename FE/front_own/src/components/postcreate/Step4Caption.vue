@@ -77,6 +77,8 @@
         alert("운동일지가 등록되었습니다!");
         createStore.resetData();
         
+        await authStore.refreshUserTier();
+
         // 메인 페이지로 이동
         router.push('/');
         
