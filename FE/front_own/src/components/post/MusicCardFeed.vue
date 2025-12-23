@@ -10,7 +10,6 @@
         <h4 class="title">{{ music.musicTitle }}</h4>
         <p class="artist">{{ music.artist }}</p>
       </div>
-      <MusicPlayer :previewUrl="music.previewUrl" />
     </div>
   </div>
 </template>

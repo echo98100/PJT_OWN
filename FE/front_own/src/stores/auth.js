@@ -9,29 +9,29 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     // 유저 ID
-    userId: (state) => state.user?.userId || state.user?.id || null, // id 필드명 호환성 추가
+    userId: (state) => state.user?.userId ?? null,
     
     // 이메일
-    email: (state) => state.user?.email || '',
+    email: (state) => state.user?.email ?? '',
     
     // 이름
-    name: (state) => state.user?.name || '',
+    name: (state) => state.user?.name ?? '',
     
     // 닉네임
-    nickname: (state) => state.user?.nickname || '',
+    nickname: (state) => state.user?.nickname ?? '',
     
     // 프로필 이미지
-    profileImg: (state) => state.user?.profileImg || '',
+    profileImg: (state) => state.user?.profileImg ?? '',
     
-    // 등급 레벨
-    tierLevel: (state) => state.user?.tierLevel || 0,
+    // 등급 레벨 (Newbie = 1 기준으로 통일)
+    tierLevel: (state) => state.user?.tierLevel ?? 1,
     
     // 게시물 수
-    postCount: (state) => state.user?.postCount || 0,
+    postCount: (state) => state.user?.postCount ?? 0,
     
     // 등급 레이블
     tierLabel: (state) => {
-      const level = state.user?.tierLevel || 0;
+      const level = state.user?.tierLevel ?? 1;
       if (level === 3) return 'Pro';
       if (level === 2) return 'Amateur';
       return 'Newbie';
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', {
     
     // 등급 CSS 클래스
     tierClass: (state) => {
-      const level = state.user?.tierLevel || 0;
+      const level = state.user?.tierLevel ?? 1;
       if (level === 3) return 'tier-pro';
       if (level === 2) return 'tier-amateur';
       return 'tier-newbie';
@@ -51,11 +51,20 @@ export const useAuthStore = defineStore('auth', {
      * 로그인 - 유저 정보 저장
      */
     setUser(userData) {
-      this.user = userData;
+      this.user = {
+        userId: userData.userId ?? userData.id,
+        email: userData.email,
+        name: userData.name,
+        nickname: userData.nickname,
+        profileImg: userData.profileImg,
+        tierLevel: userData.tierLevel ?? 1,
+        postCount: userData.postCount ?? 0
+      };
+
       this.isLoggedIn = true;
-      
-      // localStorage에도 저장 (새로고침 시 유지)
-      localStorage.setItem('own_user', JSON.stringify(userData));
+
+      // ✅ store 기준 데이터로 저장
+      localStorage.setItem('own_user', JSON.stringify(this.user));
     },
 
     /**
@@ -64,7 +73,7 @@ export const useAuthStore = defineStore('auth', {
     async fetchUser() {
       try {
         const response = await fetch('http://localhost:8080/api/user/me', {
-          credentials: 'include'  // 세션 쿠키 포함
+          credentials: 'include'
         });
 
         if (response.ok) {
@@ -83,7 +92,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     /**
-     * 로컬 유저 정보 삭제 (내부용)
+     * 로컬 유저 정보 삭제
      */
     clearUser() {
       this.user = null;
@@ -93,47 +102,44 @@ export const useAuthStore = defineStore('auth', {
 
     /**
      * 로그아웃
-     * - 서버에 로그아웃 요청을 보낸 후 로컬 정보를 삭제합니다.
      */
     async logout() {
       try {
-        // 서버 로그아웃 API 호출
         await fetch('http://localhost:8080/api/user/logout', { 
-            method: 'POST',
-            credentials: 'include' 
+          method: 'POST',
+          credentials: 'include'
         });
       } catch (e) {
-        console.error('로그아웃 요청 실패(세션 만료 등):', e);
+        console.error('로그아웃 요청 실패:', e);
       } finally {
-        // 성공하든 실패하든 클라이언트 정보는 지운다
         this.clearUser();
       }
     },
 
     /**
      * 회원 탈퇴
-     * 서버에 회원 삭제 요청을 보내고 성공 시 로그아웃 처리합니다.
      */
     async withdraw() {
-      // ID가 없으면 실행 불가
       if (!this.userId) return false;
 
-      try { //백엔드에서 회원 탈퇴 메서드 호출
-        const response = await fetch(`http://localhost:8080/api/user/${this.userId}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        });
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/user/${this.userId}`,
+          {
+            method: 'DELETE',
+            credentials: 'include'
+          }
+        );
 
         if (response.ok) {
-          // 탈퇴성공 시 로컬 정보 즉시 삭제
           this.clearUser();
           return true;
         } else {
-          console.error('회원 탈퇴 실패: 서버 응답 오류');
+          console.error('회원 탈퇴 실패');
           return false;
         }
       } catch (error) {
-        console.error('회원 탈퇴 요청 중 에러 발생:', error);
+        console.error('회원 탈퇴 요청 중 에러:', error);
         return false;
       }
     },
@@ -142,26 +148,49 @@ export const useAuthStore = defineStore('auth', {
      * 유저 정보 일부 업데이트
      */
     updateUser(updates) {
-      if (this.user) {
-        this.user = { ...this.user, ...updates };
-        localStorage.setItem('own_user', JSON.stringify(this.user));
-      }
+      if (!this.user) return;
+
+      this.user = { ...this.user, ...updates };
+      localStorage.setItem('own_user', JSON.stringify(this.user));
     },
 
     /**
-     * localStorage에서 유저 정보 복원 (새로고침 시)
+     * localStorage에서 유저 정보 복원 (🔥 핵심 수정)
      */
     restoreUser() {
       try {
         const savedUser = localStorage.getItem('own_user');
         if (savedUser) {
-          this.user = JSON.parse(savedUser);
-          this.isLoggedIn = true;
+          const userData = JSON.parse(savedUser);
+          this.setUser(userData); // ❗ 함수 호출로 복원
         }
       } catch (error) {
         console.error('유저 정보 복원 실패:', error);
         this.clearUser();
       }
+    },
+
+    /**
+     * 게시글 작성 후 등급 갱신용
+     */
+    async refreshUserTier() {
+      if (!this.isLoggedIn) return;
+
+      try {
+        const response = await fetch('http://localhost:8080/api/user/me', {
+          credentials: 'include'
+        });
+
+        if (response.ok) {
+          const updatedUser = await response.json();
+          this.updateUser({
+            tierLevel: updatedUser.tierLevel,
+            postCount: updatedUser.postCount
+          });
+        }
+      } catch (e) {
+        console.error('등급 갱신 실패:', e);
+      }
     }
   }
-})
+});

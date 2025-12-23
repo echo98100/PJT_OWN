@@ -51,7 +51,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.ranking-section { padding: 20px 0; box-sizing: border-box; width: 100%; overflow: hidden;}
+.ranking-section { padding: 20px 0 0 0; box-sizing: border-box; width: 100%; overflow: hidden;}
 .section-title { padding: 0 50px; margin-bottom: 16px; font-weight: bold; }
 
 /* Swiper가 담긴 영역의 여백 설정 */

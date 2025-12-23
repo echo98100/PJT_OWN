@@ -82,9 +82,26 @@
 	
 	<!-- 유저 게시글 수 조회 -->
 	<select id="countPostsByUserId" parameterType="int" resultType="int">
-    SELECT COUNT(*) 
-    FROM post 
-    WHERE user_id = #{userId}
-</select>
+	    SELECT COUNT(*) 
+	    FROM post 
+	    WHERE user_id = #{userId}
+	</select>
+	
+	<update id="increasePostCount">
+		UPDATE users
+		SET user_post_count = user_post_count + 1
+		WHERE user_id = #{userId}
+	</update>
+	
+	<update id="updateTierLevel">
+		UPDATE users
+		SET tier_level =
+			CASE
+				WHEN user_post_count >= 7 THEN 3
+				WHEN user_post_count >= 4 THEN 2
+				ELSE 1
+			END
+		WHERE user_id = #{userId}
+	</update>
 
 </mapper>

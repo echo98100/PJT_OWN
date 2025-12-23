@@ -18,6 +18,7 @@ import com.own.domain.post.dto.request.PostSearchRequest;
 import com.own.domain.post.dto.request.PostUpdateRequest;
 import com.own.domain.post.dto.response.MusicRankResponse;
 import com.own.domain.post.dto.response.PostResponse;
+import com.own.domain.user.dao.UserDao;
 import com.own.domain.workout.service.WorkoutService;
 import com.own.global.exception.CustomException;
 import com.own.global.exception.ErrorCode;
@@ -27,6 +28,9 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostDao postDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	@Autowired
 	private WorkoutService workoutService;
@@ -53,6 +57,10 @@ public class PostServiceImpl implements PostService {
 
 		// 2. 게시글 저장
 		postDao.insertPost(request);
+		
+		userDao.increasePostCount(request.getUserId());
+		userDao.updateTierLevel(request.getUserId());
+		
 		Integer postId = request.getPostId();
 
 		if (postId == null) {

@@ -31,4 +31,10 @@ public interface UserDao {
 	
 	//게시글 수 조회
 	public int countPostsByUserId(int userId);
+
+	public void incrementPostCount(int userId);
+	
+	void increasePostCount(int userId);
+	
+	void updateTierLevel(int userId);
 }
