@@ -5,7 +5,7 @@
         <div class="caption-area">
             <textarea
               v-model="createStore.caption"
-              :placeholder="placeholderText";
+              :placeholder="placeholderText"
               maxlength="400"
             ></textarea>
         </div>
