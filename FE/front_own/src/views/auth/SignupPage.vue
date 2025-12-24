@@ -32,7 +32,7 @@
 
           <div class="input-group">
             <div class="input-wrapper">
-              <label>EMAIL</label>
+              <label>이메일</label>
               <input
                 v-model="email"
                 type="email"
@@ -43,18 +43,21 @@
             </div>
 
             <div class="input-wrapper">
-              <label>PASSWORD</label>
+              <label>비밀번호</label>
               <input
                 v-model="password"
                 type="password"
                 @blur="validatePassword"
                 :class="{ 'error-border': passwordError }"
               />
+              <small class="helper-text">
+               영문과 숫자를 조합해 8~13자로 입력해주세요
+              </small>
               <p v-if="passwordError" class="field-error">{{ passwordError }}</p>
             </div>
 
             <div class="input-wrapper">
-              <label>PASSWORD CONFIRM</label>
+              <label>비밀번호 확인</label>
               <input
                 v-model="passwordConfirm"
                 type="password"
@@ -65,7 +68,7 @@
             </div>
 
             <div class="input-wrapper">
-              <label>NAME</label>
+              <label>이름</label>
               <input
                 v-model="name"
                 type="text"
@@ -76,7 +79,7 @@
             </div>
 
             <div class="input-wrapper">
-              <label>NICKNAME</label>
+              <label>닉네임</label>
               <input
                 v-model="nickname"
                 type="text"
@@ -87,15 +90,15 @@
             </div>
           </div>
 
-          <button class="submit-btn" @click="handleSignup">SIGN IN</button>
+          <button class="submit-btn" @click="handleSignup">회원가입</button>
 
           <p v-if="errorMessage" class="error-global">
             {{ errorMessage }}
           </p>
 
           <p class="login-link">
-            Already have an account?
-            <router-link to="/login">Login</router-link>
+            이미 계정이 있으신가요?
+            <router-link to="/login">로그인</router-link>
           </p>
         </div>
       </div>
@@ -176,30 +179,30 @@ export default {
     },
     validatePassword() {
       const pattern = /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,13}$/;
-      if (!pattern.test(this.password)) { this.passwordError = "영문, 숫자 조합 8~13자"; return false; }
+      if (!pattern.test(this.password)) { this.passwordError = "비밀번호 형식이 올바르지 않습니다."; return false; }
       this.passwordError = ""; return true;
     },
     validatePasswordConfirm() {
-      if (this.password !== this.passwordConfirm) { this.passwordConfirmError = "비밀번호가 일치하지 않습니다"; return false; }
+      if (this.password !== this.passwordConfirm) { this.passwordConfirmError = "비밀번호가 일치하지 않습니다."; return false; }
       this.passwordConfirmError = ""; return true;
     },
     validateName() {
       if (!this.name) { this.nameError = ""; return false; }
       const namePattern = /^[가-힣a-zA-Z0-9]{3,20}$/;
-      if (!namePattern.test(this.name)) { this.nameError = "한글, 영어, 숫자로 3~20자"; return false; }
-      if (/[^가-힣a-zA-Z0-9]/.test(this.name)) { this.nameError = "특수문자 금지"; return false; }
+      if (!namePattern.test(this.name)) { this.nameError = "이름은 한글, 영문, 숫자를 사용해 3~20자로 입력해주세요."; return false; }
+      if (/[^가-힣a-zA-Z0-9]/.test(this.name)) { this.nameError = "이름에는 특수문자를 사용할 수 없습니다."; return false; }
       this.nameError = ""; return true;
     },
     async validateNickname() {
       if (!this.nickname) { this.nicknameError = ""; return false; }
       try {
         const res = await checkNicknameDuplicate(this.nickname);
-        if (res.data === true) { this.nicknameError = "이미 사용 중인 닉네임입니다"; return false; }
-      } catch (e) { this.nicknameError = "오류 발생"; return false; }
+        if (res.data === true) { this.nicknameError = "이미 사용 중인 닉네임이에요."; return false; }
+      } catch (e) { this.nicknameError = "닉네임 확인 중 문제가 발생했어요. 잠시 후 다시 시도해주세요."; return false; }
       this.nicknameError = ""; return true;
     },
     async handleSignup() {
-      if (!this.profileImg) { this.imageError = "프로필 이미지를 선택해주세요"; this.errorMessage = ""; return; }
+      if (!this.profileImg) { this.imageError = "프로필 이미지를 선택해주세요."; this.errorMessage = ""; return; }
       const isEmailValid = await this.validateEmail();
       const isPasswordValid = this.validatePassword();
       const isPasswordConfirmValid = this.validatePasswordConfirm();
@@ -380,8 +383,8 @@ export default {
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 30px;
+  gap: 14px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
@@ -391,23 +394,29 @@ export default {
 }
 
 .input-wrapper label {
-  font-size: 11px;
-  color: #eee; /* 밝은 흰색 라벨 */
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.95);
   margin-bottom: 4px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 700;  
+  letter-spacing: 0.6px;
+}
+
+.helper-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
 }
 
 /* 입력 필드 스타일 (밑줄) */
 .signup-form input {
   width: 100%;
-  padding: 8px 0;
+  padding: 6px 0;
   box-sizing: border-box;
   background: transparent; /* 배경 투명 */
   border: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.6); /* 흰색 밑줄 */
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   outline: none;
   transition: border-color 0.2s;
   border-radius: 0;
@@ -424,8 +433,12 @@ export default {
 /* 에러 메시지 */
 .field-error {
   color: #ff6b6b;
-  font-size: 11px;
-  margin-top: 4px;
+  font-size: 12px;              /* 11 → 12 */
+  font-weight: 500;
+  margin-top: 5px;
+  padding: 6px 8px;
+  line-height: 1.4;
+   display: inline-block;
 }
 .center-error {
   text-align: center;
@@ -470,8 +483,7 @@ export default {
   text-decoration: none;
   font-weight: 700;
   margin-left: 4px;
-}
-
+} 
 .login-link a:hover {
   text-decoration: underline;
 }
