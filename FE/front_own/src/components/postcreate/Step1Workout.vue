@@ -61,7 +61,7 @@ const next = () => {
 }
 
 .step-title {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 700;
     margin-bottom: 40px;
 }
@@ -82,7 +82,7 @@ const next = () => {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+    gap: 12px;
     align-content: center;
     width: 100%;
     padding: 40px 0;
@@ -91,12 +91,12 @@ const next = () => {
 }
 
 .tag-btn {
-    padding: 12px 20px;
+    padding: 10px 16px;
     border: 1.5px solid rgba(0, 0, 0, 0);
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.1);
     color: #333;
-    font-size: 1.3rem;
+    font-size: 1.0rem;
     font-weight: 600;
     cursor: pointer;
     align-items: center;
@@ -121,13 +121,13 @@ const next = () => {
 }
 
 .next-btn {
-    width: 160px;
-    padding: 15px;
+    width: 100px;
+    padding: 10px 16px;
     background: #333;
     color: white;
     border: none;
-    border-radius: 30px; /* 알약 형태 */
-    font-size: 1.1rem;
+    border-radius: 30px; 
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: transform 0.2s;

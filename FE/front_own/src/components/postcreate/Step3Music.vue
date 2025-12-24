@@ -154,7 +154,7 @@ onMounted(() => {
 }
 
 .step-title {
-    font-size: 1.6rem;
+    font-size: 1.3rem; /* 1.6rem → 1.3rem (Step1, Step2와 동일) */
     font-weight: 700;
     margin-bottom: 20px;
 }
@@ -209,16 +209,15 @@ onMounted(() => {
     display: flex;
     width: 100%;
     gap: 20px;
-    padding: 10px 40px; /* 좌우 여백 확보 */
+    padding: 10px 40px;
     box-sizing: border-box;
-    min-height: 0; /* 세로 스크롤을 위한 설정 */
+    min-height: 0;
     overflow: hidden; 
 }
 
-/* 왼쪽/오른쪽 공통: 내부 요소 때문에 영역이 늘어나는 것 방지 */
 .selection-preview, .search-results {
     flex: 1;
-    min-width: 0; /* 중요: 부모의 flex 비율을 유지하며 짤림 방지 */
+    min-width: 0;
     display: flex;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.1);
@@ -228,9 +227,10 @@ onMounted(() => {
 }
 
 .search-results {
-    flex: 1.2; /* 결과창을 조금 더 넓게 */
+    flex: 1.2;
     background: rgba(255, 255, 255, 0.15);
 }
+
 .sub-title {
     font-size: 1rem;
     color: #555;
@@ -238,7 +238,6 @@ onMounted(() => {
     font-weight: 600;
 }
 
-/* 왼쪽: 프리뷰 */
 .selection-preview {
     flex: 1;
     background: rgba(255, 255, 255, 0.1);
@@ -270,23 +269,13 @@ onMounted(() => {
 .p-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; color: #333; }
 .p-artist { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
 
-/* 오른쪽: 검색 결과 */
-.search-results {
-    flex: 1.2;
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 20px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
 .results-scroll {
     flex: 1;
     overflow-y: auto;
     padding-right: 5px;
 }
 
-/* --- 스크롤바 커스텀 (Step2와 동일) --- */
+/* --- 스크롤바 커스텀 --- */
 .results-scroll::-webkit-scrollbar { width: 5px; }
 .results-scroll::-webkit-scrollbar-track { background: transparent; }
 .results-scroll::-webkit-scrollbar-thumb {
@@ -304,29 +293,33 @@ onMounted(() => {
     line-height: 1.5;
 }
 
-/* --- 내비게이션 영역 --- */
+/* --- 내비게이션 영역 (Step1, Step2와 동일) --- */
 .nav-area {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 20px;
-    padding-top: 10px;
+    gap: 12px; /* 20px → 12px */
+    padding-top: 20px; /* 10px → 20px (Step1, Step2와 동일) */
 }
 
 .prev-btn, .next-btn {
-    width: 140px;
-    padding: 15px;
+    min-width: 100px; /* width: 140px → min-width: 100px */
+    padding: 10px 16px; /* 15px → 10px 16px */
     border-radius: 30px;
-    font-size: 1.1rem;
+    font-size: 1rem; /* 1.1rem → 1rem */
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s;
 }
 
 .prev-btn {
     background: rgba(255, 255, 255, 0.2);
     color: #333;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1.5px solid rgba(0, 0, 0, 0.1); /* 1px → 1.5px */
+}
+
+.prev-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
 }
 
 .next-btn {
@@ -338,5 +331,9 @@ onMounted(() => {
 .next-btn:disabled {
     background: rgba(0, 0, 0, 0.2);
     cursor: not-allowed;
+}
+
+.next-btn:active:not(:disabled), .prev-btn:active {
+    transform: scale(0.95);
 }
 </style>

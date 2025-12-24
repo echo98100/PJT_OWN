@@ -43,13 +43,11 @@ const createStore = useCreateStore();
 .create-page {
     position: relative;
     width: 800px;
-    height: 960px;
+    height: 720px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 40px;
-    
-    /* 테두리 ?? */
     border-width: 0.1px;
     border-style: solid;
     border-color: rgb(240, 240, 240);
@@ -57,7 +55,7 @@ const createStore = useCreateStore();
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    padding: 60px 40px;
+    padding: 50px 40px;
     margin: 0 auto;
     box-sizing: border-box;
     z-index: 5;

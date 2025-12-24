@@ -88,16 +88,16 @@ const handleSubmit = async () => {
 
 <style scoped>
 .step-container {
-    width: 100%; /* 부모 너비(800px)를 꽉 채우도록 설정 */
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box; /* 패딩이 너비를 늘리지 않게 방지 */
+    box-sizing: border-box;
 }
 
 .step-title {
-    font-size: 1.6rem;
+    font-size: 1.3rem; 
     font-weight: 700;
     margin-bottom: 40px;
 }
@@ -121,7 +121,7 @@ const handleSubmit = async () => {
     flex-direction: column;
     position: relative;
     padding: 0 40px;
-    box-sizing: border-box; /* 중요: 좌우 40px 패딩을 너비 계산에 포함 */
+    box-sizing: border-box;
 }
 
 .glass-textarea {
@@ -157,24 +157,28 @@ const handleSubmit = async () => {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 12px; 
     padding-top: 20px;
 }
 
 .prev-btn, .submit-btn {
-    width: 140px;
-    padding: 15px;
+    min-width: 100px; 
+    padding: 10px 16px; 
     border-radius: 30px;
-    font-size: 1.1rem;
+    font-size: 1rem; 
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s;
 }
 
 .prev-btn {
     background: rgba(255, 255, 255, 0.2);
     color: #333;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1.5px solid rgba(0, 0, 0, 0.1); 
+}
+
+.prev-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
 }
 
 .submit-btn {
@@ -186,5 +190,9 @@ const handleSubmit = async () => {
 .submit-btn:disabled {
     background: rgba(0, 0, 0, 0.2);
     cursor: not-allowed;
+}
+
+.submit-btn:active:not(:disabled), .prev-btn:active {
+    transform: scale(0.95);
 }
 </style>

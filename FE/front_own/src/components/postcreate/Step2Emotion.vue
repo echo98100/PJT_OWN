@@ -1,6 +1,19 @@
 <template>
     <div class="step-container">
         <h2 class="step-title">운동하면서 어떤 감정이 들었나요?</h2>
+        <p class="subtitle">최대 5개까지 선택 가능해요</p>
+
+        <!-- 선택된 태그를 제목 밑으로 이동 -->
+        <div class="selected-summary">
+            <div v-if="createStore.selectedEmotionTags.length === 0" class="placeholder">
+                태그를 선택해주세요
+            </div>
+            <div v-else class="selected-tags">
+                <span v-for="emotion in createStore.selectedEmotionTags" :key="emotion.emotionTypeId" class="badge">
+                    {{ emotion.emotionName }}
+                </span>
+            </div>
+        </div>
 
         <div class="divider"></div>
 
@@ -17,6 +30,7 @@
                         :key="tag.emotionTypeId"
                         :class="['tag-btn', {active: isSelected(tag.emotionTypeId)}]"
                         @click="handleEmotion(tag)"
+                        :disabled="!isSelected(tag.emotionTypeId) && createStore.selectedEmotionTags.length >= 5"
                         >
                         {{ tag.emotionName }}
                     </button>
@@ -25,17 +39,6 @@
         </div>
 
         <div class="divider"></div>
-
-        <div class="selected-summary">
-            <div v-if="createStore.selectedEmotionTags.length === 0" class="placeholder">
-                태그를 선택해주세요.
-            </div>
-            <div v-else class="selected-tags">
-                <span v-for="emotion in createStore.selectedEmotionTags" :key="emotion.emotionTypeId" class="badge">
-                    {{ emotion.emotionName }}
-                </span>
-            </div>
-        </div>
 
         <div class="nav-area">
             <button @click="prev" class="prev-btn">이전</button>
@@ -77,11 +80,14 @@ const isSelected = (emotionTypeId) => {
 };
 
 const handleEmotion = (tag) => {
+    if (!isSelected(tag.emotionTypeId) && createStore.selectedEmotionTags.length >= 5) {
+        return;
+    }
     createStore.toggleEmotion(tag);
 };
 
 const prev = () => {
-    createStore.setStep(1); // 1단계로 돌아가기
+    createStore.setStep(1);
 };
 
 const next = () => {
@@ -102,9 +108,46 @@ const next = () => {
 }
 
 .step-title {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    margin-bottom: 40px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 15px; /* 25px → 15px (선택된 태그 공간 확보) */
+    font-weight: 500;
+}
+
+.selected-summary {
+    width: 100%;
+    min-height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* 5px → 10px */
+}
+
+.selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.badge {
+    background: #333;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 0.85rem;
 }
 
 .divider {
@@ -116,12 +159,14 @@ const next = () => {
         rgba(255, 255, 255, 0.6) 50%, 
         rgba(255, 255, 255, 0) 100%
     );
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .loading {
-    text-align: center;
-    padding: 40px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #666;
     font-size: 1.1rem;
 }
@@ -131,37 +176,36 @@ const next = () => {
     width: 100%;
     overflow-y: auto;
     padding: 0 20px;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
-/* 크롬, 사파리용 스크롤바 */
 .scroll-area::-webkit-scrollbar {
-    width: 6px; /* 스크롤바 너비 */
+    width: 6px;
 }
 
 .scroll-area::-webkit-scrollbar-track {
-    background: transparent; /* 트랙 배경 투명 */
+    background: transparent;
 }
 
 .scroll-area::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3); /* 작은 바: 반투명 화이트 */
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 10px;
 }
 
 .scroll-area::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5); /* 호버 시 약간 더 선명하게 */
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .emotion-group {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     text-align: left;
     width: 100%;
 }
 
 .group-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     font-weight: 600;
     padding-left: 5px;
 }
@@ -169,22 +213,22 @@ const next = () => {
 .tag-wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
 }
 
 .tag-btn {
-    padding: 10px 18px;
+    padding: 8px 14px;
     border: 1.5px solid rgba(0, 0, 0, 0);
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.15);
     color: #333;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.tag-btn:hover {
+.tag-btn:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.35);
 }
 
@@ -194,62 +238,37 @@ const next = () => {
     border-color: #333;
 }
 
-.selected-summary {
-    width: 100%;
-    min-height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.selected-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-}
-
-.badge {
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 400;
-}
-
-.placeholder {
-    color: rgba(0, 0, 0, 0.4);
-    font-size: 0.9rem;
+.tag-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .nav-area {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 20px; /* 버튼 사이 간격 */
-    padding-top: 10px;
+    gap: 12px;
+    padding-top: 20px;
 }
 
 .prev-btn, .next-btn {
-    width: 140px;
-    padding: 15px;
+    min-width: 100px;
+    padding: 10px 16px;
     border-radius: 30px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.2s;
 }
 
 .prev-btn {
     background: rgba(255, 255, 255, 0.2);
     color: #333;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
 }
 
 .prev-btn:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.35);
 }
 
 .next-btn {
@@ -265,13 +284,5 @@ const next = () => {
 
 .next-btn:active:not(:disabled), .prev-btn:active {
     transform: scale(0.95);
-}
-
-.loading {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
 }
 </style>
