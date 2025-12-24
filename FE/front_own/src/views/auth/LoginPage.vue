@@ -5,37 +5,53 @@
     <div class="bg-animation"></div>
 
     <div class="login-container">
-    <!-- 왼쪽 이미지 영역 -->
-        <div class="image-section"> 
-            <!--목업 이미지 넣어야됨-->
-            <!-- <img src="@/assets/mockup-image.jpg" alt="OWN Mockup" /> -->
-          </div>
-        
-        <!-- 오른쪽: 로그인 폼 -->
+        <!-- 로그인 폼 -->
           <div class="form-section">
-            <h1>OWN</h1>
-          <p class="welcome-text">Welcome to OWN</p>
+
+            <div class="logo-wrapper">
+              <img src="@/assets/logo/black.png" alt="OWN LOGO" class="login-logo" />
+             </div>
+            
+          <p class="welcome-text">OWN과 함께 나만의 운동 일지를 기록해보세요</p>
 
         <!-- 입력 폼-->
         <div class="login-form">
-          <input v-model="email" type="email" placeholder="이메일" />
+          <div class="input-group">
+            <div class="input-wrapper">
+              <label>EMAIL</label>
+              <input 
+                v-model="email" 
+                type="email" 
+                placeholder="이메일을 입력하세요" 
+                @keyup.enter="handleLogin"
+              />
+            </div>
 
-          <input v-model="password" type="password" placeholder="비밀번호" />
-          <button @click="handleLogin">로그인</button>
+            <div class="input-wrapper">
+              <label>PASSWORD</label>
+              <input 
+                v-model="password" 
+                type="password" 
+                placeholder="비밀번호를 입력하세요" 
+                @keyup.enter="handleLogin"
+              />
+            </div>
+          </div>
 
-          <!-- 에러 메시지-->
-          <p v-if="errorMessage" class="error">
+          <p v-if="errorMessage" class="error-global">
             {{ errorMessage }}
           </p>
-        <!-- 회원가입 링크 -->
-            <p class="register-link">
-              계정이 없으신가요?
-              <router-link to="/signup">가입하기</router-link>
-            </p>
-          </div>
+
+          <button class="submit-btn" @click="handleLogin">로그인</button>
+
+          <p class="register-link">
+            계정이 없으신가요?
+            <router-link to="/signup">가입하기</router-link>
+          </p>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -175,73 +191,124 @@ export default {
 
 .login-container {
   z-index: 1;
-  display: flex;
-  width: 80%;
-  max-width: 1200px;
-  height: 600px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  width: 420px;
+  padding: 50px 40px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
 }
 
+.logo-wrapper {
+  margin-bottom: 15px;
+}
 
-/* 왼쪽: 이미지 영역 */
-.image-section {
-  flex: 1;
-  background-color: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+.login-logo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
 }
-.image-section img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+.welcome-text {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 40px;
+  font-weight: 500;
+  letter-spacing: -0.5px;
 }
-/* 오른쪽: 로그인 폼 */
-.form-section {
-  flex: 1;
-  padding: 60px;
+
+/* 입력 필드 그룹 */
+.input-group {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 24px;
+  margin-bottom: 30px;
+  text-align: left;
 }
 
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper label {
+  font-size: 11px;
+  color: #333;
+  margin-bottom: 6px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* 밑줄 입력 스타일 */
 .login-form input {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 10px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  color: #222;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
-.login-form button {
+.login-form input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 13px;
+}
+
+.login-form input:focus {
+  border-bottom-color: #222;
+}
+
+/* 에러 메시지 */
+.error-global {
+  color: #ff4d4d;
+  font-size: 13px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* 로그인 버튼 */
+.submit-btn {
   width: 100%;
-  padding: 12px;
-  margin: 20px 0 10px 0;
-  background-color: #333;
+  padding: 16px;
+  background-color: #222;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 35px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
 }
-.error {
-  color: red;
+
+.submit-btn:hover {
+  background-color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
+
+/* 회원가입 링크 */
 .register-link {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #666;
+  font-size: 13px;
+  color: #444;
 }
 
 .register-link a {
-  color: #007bff;
+  color: #222;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
+  margin-left: 6px;
+  border-bottom: 1px solid #222;
 }
 
 .register-link a:hover {
-  text-decoration: underline;
+  color: #000;
 }
 </style>
