@@ -1,0 +1,66 @@
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-Regular.ttf') format('truetype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-Medium.ttf') format('truetype');
+  font-weight: 500; /* Medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-SemiBold.ttf') format('truetype');
+  font-weight: 600; /* SemiBold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-Bold.ttf') format('truetype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800; /* ExtraBold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-Black.ttf') format('truetype');
+  font-weight: 900; /* Black */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Wanted Sans';
+  src: url('@/assets/fonts/WantedSans-ExtraBlack.ttf') format('truetype');
+  font-weight: 950; /* ExtraBlack (커스텀 수치) */
+  font-style: normal;
+}
+
+/* -------------------------------------------------- */
+
+/* 전체 초기화 및 기본 폰트 적용 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Wanted Sans', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  /* 텍스트 렌더링 최적화 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 폼 요소 폰트 상속 강제화 */
+input, button, textarea, select {
+  font-family: 'Wanted Sans', sans-serif;
+}
