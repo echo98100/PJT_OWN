@@ -20,7 +20,7 @@ VALUES
     ('4xkOaSrkexMciUUogZKVTS', 'Till I Collapse', 'Eminem', 'https://i.scdn.co/image/ab67616d0000b2736ca5c90113b30c3c43ffb8f4', 297, NULL),
     ('3bidbhpOYeV4knp8AIu8Xn', 'Can\'t Hold Us', 'Macklemore', 'https://i.scdn.co/image/ab67616d0000b273938f1c0cc7d36a671ed226a7', 258, NULL),
     ('0j2T0R9dR9qdJYsB7ciXhf', 'Stronger', 'Kanye West', 'https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a', 311, NULL),
-    ('32OlwWuMpZ6b0aN2RZOeMS', 'Uptown Funk', 'Mark Ronson', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBJCCn1oHBNtb7JiVbDv0aTuDSKuXb5m6Gyg&s', 269, NULL),
+    ('32OlwWuMpZ6b0aN2RZOeMS', 'Uptown Funk', 'Mark Ronson', 'https://m.media-amazon.com/images/I/71bftRjgEgL._UF1000,1000_QL80_.jpg', 269, NULL),
     ('7qiZfU4dY1lWllzX7mPBI', 'Shape of You', 'Ed Sheeran', 'https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96', 233, NULL),
     ('1zi7xx7UVEFkmKfv06H8x0', 'One Dance', 'Drake', 'https://i.scdn.co/image/ab67616d0000b2739416ed64daf84936d89e671c', 173, NULL),
     ('5UqCQaDshqbIk3pkhy4Pjg', 'Levels', 'Avicii', 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/38/43/67384338-9ed7-fc68-5927-93f1fcf4705d/11UMGIM36900.rgb.jpg/600x600bf-60.jpg', 203, NULL),
