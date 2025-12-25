@@ -1,8 +1,7 @@
 <template>
   <div class="chatbot-wrapper">
     <button class="ai-trigger-btn" @click="isModalOpen = true">
-      <span class="ai-icon">✨</span>
-      <span class="btn-text">AI 코치 (Pro)</span>
+      <span class="btn-text">OWN AI</span>
     </button>
 
     <Teleport to="body">
@@ -12,8 +11,7 @@
             <div class="header-content">
               
               <div>
-                <h3>OWN AI ASSISTANT <span class="badge"></span></h3>
-                <p class="status">추론 중에는 시간이 소요될 수 있습니다</p>
+                <h3>OWN AI ASSISTANT</h3>
               </div>
             </div>
             <button class="close-btn" @click="isModalOpen = false">✕</button>
@@ -31,7 +29,7 @@
               <div class="bubble-wrapper">
                 <div class="bubble loading">
                   <span class="dot-flashing"></span>
-                  AI가 복잡한 문제를 해결하고 있습니다...
+                  ...
                 </div>
               </div>
             </div>
@@ -93,7 +91,7 @@ const handleSend = async () => {
         'Authorization': `Bearer ${GMS_KEY}`
       },
       body: JSON.stringify({
-        model: "gpt-5.2-pro",
+        model: "gpt-5.2",
         input: finalInput // gpt-5.2-pro는 'input' 키를 사용합니다.
       })
     });
@@ -144,26 +142,52 @@ const scrollToBottom = async () => {
 </script>
 
 <style scoped>
-/* 사이드바 트리거 버튼 - 작성하기 버튼과 유사한 컨셉 */
+/* 사이드바 트리거 버튼 */
 .ai-trigger-btn {
-  width: 100%;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  color: #fff;
-  font-weight: 600;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: 800;
+  font-size: 0.95rem;
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  transition: all 0.3s;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    filter 0.25s ease;
 }
 
 .ai-trigger-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #E1603F;
+  background: linear-gradient(
+    135deg,
+    #2E3781 0%,
+    #E1603F 100%
+  );
+  border-color: rgba(255, 255, 255, 0.35);
+
+  transform: translateY(-4px) scale(1.05);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.25);
+
+  filter: brightness(1.05);
+}
+
+.ai-trigger-btn:active {
+  transform: scale(0.95);
 }
 
 /* 모달 오버레이 */

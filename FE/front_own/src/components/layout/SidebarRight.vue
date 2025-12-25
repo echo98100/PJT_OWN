@@ -34,6 +34,7 @@
         </section>
 
         <section class="ai-section">
+          <div class="ai-title">AI에게 추천받아보세요</div>
           <ChatBotModal />
         </section>
         
@@ -125,7 +126,6 @@ watch(() => route.path, (newPath) => {
   font-size: 0.6em; 
   text-anchor: middle;
   font-weight: bold;
-  font-family: 'Arial', sans-serif;
 }
 
 .stats-label {
@@ -136,8 +136,23 @@ watch(() => route.path, (newPath) => {
 }
 
 .ai-section {
-  margin-top: auto; 
-  padding-bottom: 20px;
+  margin-top: auto;
+  padding-bottom: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.ai-title {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  /* 살짝 강조 */
+  text-align: center;
 }
 
 @media (max-width: 1100px) {
